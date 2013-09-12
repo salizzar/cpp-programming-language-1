@@ -12,6 +12,7 @@ void showMenu(){
   cout << "\n5 - Check Account Balance";
   cout << "\n6 - Delete a Account";
   cout << "\n7 - Set BACEN limit";
+  cout << "\n8 - Upgrade Account";
   cout << "\n9 - Exit";
   cout << "\n-------------------------";
   cout << "\n";
@@ -57,6 +58,9 @@ int main(){
       case 7:
         manager.setBacenLimit();
         break;
+
+      case 8:
+        manager.upgradeAccount();
 
       case 9:
         break;
