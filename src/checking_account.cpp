@@ -2,6 +2,9 @@
 
 using namespace std;
 
+CheckingAccount::CheckingAccount(){
+}
+
 CheckingAccount::CheckingAccount(AccountHolder *accountHolder, int id, double balance){
   this->accountHolder = accountHolder;
   this->id = id;
@@ -35,3 +38,11 @@ void CheckingAccount::deposit(double value){
 AccountHolder *CheckingAccount::getAccountHolder(){
   return this->accountHolder;
 }
+
+void CheckingAccount::show(){
+  this->accountHolder->show();
+
+  cout << "\nAccount ID:          " << this->id
+       << "\nBalance:             " << this->balance;
+}
+
