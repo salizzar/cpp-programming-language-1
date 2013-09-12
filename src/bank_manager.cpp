@@ -12,7 +12,6 @@ void BankManager::createCheckingAccount(){
   }
 
   int accountId;
-  double  accountBalance;
 
   accountId = this->promptAccountId();
   if (bank.accountAlreadyExists(accountId)){
@@ -20,15 +19,23 @@ void BankManager::createCheckingAccount(){
     return;
   }
 
-  accountBalance = this->promptAccountBalance();
-
   char accountHolderName[30];
   cout << "\nEnter Account Holder name: "; cin.getline(accountHolderName, 30);
+  AccountHolder *holder = new AccountHolder(accountHolderName);
 
-  AccountHolder   *holder   = new AccountHolder(accountHolderName);
-  CheckingAccount *account  = new CheckingAccount(holder, accountId, accountBalance);
+  double accountBalance = this->promptAccountBalance();
 
-  bank.addCheckingAccount(account);
+  CheckingAccount *account;
+  bool isSpecialAccount = this->promptSpecialAccount();
+
+  if (isSpecialAccount){
+    double limit = this->promptAccountLimit();
+    double interestRate = this->promptAccountInterestRate();
+
+    bank.addSpecialCheckingAccount(holder, accountId, accountBalance, limit, interestRate);
+  } else {
+    bank.addCheckingAccount(holder, accountId, accountBalance);
+  }
 }
 
 void BankManager::updateAccount(){
@@ -59,7 +66,7 @@ void BankManager::withdrawAccount(){
 
   cout << "\nEnter withdraw value: "; cin >> withdraw;
   if (account->withdrawExceeds(withdraw)){
-    cout << "\nWithdraw exceeds balance, aborting.";
+    cout << "\nWithdraw exceeds limit, aborting.";
     return;
   }
 
@@ -90,14 +97,8 @@ void BankManager::depositAccount(){
 }
 
 void BankManager::checkAccountBalance(){
-  CheckingAccount *account = this->findCheckingAccount();
-  if (account == NULL){
-    cout << "\nAccount not found. Skipping.";
-    return;
-  }
-
-  this->showCheckingAccountHeader();
-  this->showCheckingAccountDetails(account);
+  int accountId = this->promptAccountId();
+  bank.showCheckingAccount(accountId);
 }
 
 void BankManager::deleteAccount(){
@@ -133,20 +134,20 @@ void BankManager::setBacenLimit(){
   cout << "\nSuccessfully setted BACEN limit.";
 }
 
-void BankManager::showCheckingAccountHeader(){
-  cout << "\n"
-        << "| Account ID "
-        << "|             Account Holder Name "
-        << "|     Balance "
-        << "|";
-}
+void BankManager::upgradeAccount(){
+  int accountId = this->promptAccountId();
 
-void BankManager::showCheckingAccountDetails(CheckingAccount *account){
-  cout << "\n" <<
-    "|" << setw(11) << account->getId()                           << " " <<
-    "|" << setw(32) << account->getAccountHolder()->getName()     << " " <<
-    "|" << setw(12) << account->getBalance()                      << " " <<
-    "|";
+  if (!bank.accountAlreadyExists(accountId)) {
+    cout << "\nAccount not found. Skipping.";
+    return;
+  }
+
+  double limit = this->promptAccountLimit();
+  double interestRate = this->promptAccountInterestRate();
+
+  bank.upgradeAccount(accountId, limit, interestRate);
+
+  cout << "\nAccount upgraded.";
 }
 
 void BankManager::clearInvalidOption(){
@@ -190,5 +191,46 @@ double BankManager::promptAccountBalance(){
   cin.ignore();
 
   return accountBalance;
+}
+
+bool BankManager::promptSpecialAccount(){
+  char option[1];
+  bool yes, no;
+
+  do {
+    cout << "\nIs Special Account (y/n): "; cin >> option;
+    yes = strcmp(option, "y") == 0;
+    no  = strcmp(option, "n") == 0;
+  } while (!yes && !no);
+
+  cin.ignore();
+
+  return yes;
+}
+
+double BankManager::promptAccountLimit(){
+  double value;
+
+  do {
+    cout << "\nEnter Account Limit: "; cin >> value;
+
+    if (value <= 0.0)
+      cout << "\nInvalid Limit, try again.";
+  } while (value <= 0.0);
+
+  return value;
+}
+
+double BankManager::promptAccountInterestRate(){
+  double value;
+
+  do {
+    cout << "\nEnter Account Interest Rate: "; cin >> value;
+
+    if (value <= 0.0)
+      cout << "\nInvalid Interest Rate, try again.";
+  } while (value <= 0.0);
+
+  return value;
 }
 

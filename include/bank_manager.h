@@ -1,5 +1,4 @@
 #include <iostream>
-#include <iomanip>
 #include "bank.h"
 
 #pragma once
@@ -9,9 +8,11 @@ private:
   Bank bank;
 
   void    showCheckingAccountHeader();
-  void    showCheckingAccountDetails(CheckingAccount*);
   int     promptAccountId();
   double  promptAccountBalance();
+  bool    promptSpecialAccount();
+  double  promptAccountLimit();
+  double  promptAccountInterestRate();
 
   CheckingAccount *findCheckingAccount();
 
@@ -24,6 +25,7 @@ public:
   void depositAccount();
   void checkAccountBalance();
   void deleteAccount();
+  void upgradeAccount();
   void setBacenLimit();
 
   void clearInvalidOption();
