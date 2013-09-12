@@ -9,8 +9,10 @@ private:
 
 public:
   AccountHolder(char[]);
+  AccountHolder(AccountHolder*);
 
   char* getName();
   void setName(char[]);
+  void show();
 };
 
