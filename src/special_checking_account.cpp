@@ -24,7 +24,6 @@ SpecialCheckingAccount::SpecialCheckingAccount(
   this->interestRate = interestRate;
 }
 
-
 double SpecialCheckingAccount::getLimit(){ return this->limit; }
 double SpecialCheckingAccount::getInterestRate(){ return this->interestRate; }
 
