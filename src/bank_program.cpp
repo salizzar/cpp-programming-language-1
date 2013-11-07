@@ -1,9 +1,10 @@
-#include <iostream>
-#include "bank_manager.h"
+#include "bank_program.h"
 
 using namespace std;
 
-void showMenu(){
+double Bank::BACEN_LIMIT = 0.0;
+
+void BankProgram::showMenu(){
   cout << "\n-------------------------";
   cout << "\n1 - Create Account";
   cout << "\n2 - Update Account";
@@ -19,9 +20,7 @@ void showMenu(){
   cout << "\nEnter a option: ";
 }
 
-double Bank::BACEN_LIMIT = 0.0;
-
-int main(){
+void BankProgram::run(){
   BankManager manager;
   int option;
 
@@ -66,7 +65,7 @@ int main(){
         break;
 
       default:
-        manager.clearInvalidOption();
+        Util::clearInvalidOption();
 
         cout << "\nInvalid option, try again.\n";
     }
