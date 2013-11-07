@@ -150,14 +150,6 @@ void BankManager::upgradeAccount(){
   cout << "\nAccount upgraded.";
 }
 
-void BankManager::clearInvalidOption(){
-   if (cin.fail()){
-     char dummy[255];
-     cin.clear();
-     cin >> dummy;
-   }
-}
-
 CheckingAccount *BankManager::findCheckingAccount(){
   int accountId = this->promptAccountId();
   return bank.getCheckingAccountById(accountId);

@@ -27,7 +27,5 @@ public:
   void deleteAccount();
   void upgradeAccount();
   void setBacenLimit();
-
-  void clearInvalidOption();
 };
 
