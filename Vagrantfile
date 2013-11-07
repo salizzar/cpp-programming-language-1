@@ -2,7 +2,7 @@
 # vi: set ft=ruby :
 
 Vagrant.configure('2') do |config|
-  config.vm.box = 'debian-wheezy-amd64-base'
+  config.vm.box = 'debian_7.2_64-base'
 
   config.vm.provider :virtualbox do |vb|
     vb.customize [ :modifyvm, :id, '--memory', 256 ]
